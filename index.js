@@ -4,6 +4,7 @@ import express from "express";
 import { MongoClient } from "mongodb";
 import { paymentRouter } from "./routes/payments.js";
 import { productRouter } from "./routes/products.js";
+import { usersRouter } from "./routes/user.js";
 
 
 dotenv.config();
@@ -28,9 +29,13 @@ async function createConnection() {
 export const client = await createConnection();
 app.use(express.json());
 app.use(cors());
+app.set("view engine", "ejs");
+app.use(express.urlencoded({ extended: false }));
 
 app.use("/payments", paymentRouter);
 app.use("/products", productRouter);
+app.use("/user", usersRouter);
+
 
 
 app.get("/", (req, res) => {
